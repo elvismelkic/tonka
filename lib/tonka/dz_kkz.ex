@@ -1,6 +1,10 @@
 defmodule Tonka.DzKkz do
   use Crawly.Spider
 
+  def title do
+    "Dom zdravlja Koprivničko-križevačke županije"
+  end
+
   @impl Crawly.Spider
   def base_url(), do: "https://dzkkz.hr/"
 
@@ -23,7 +27,6 @@ defmodule Tonka.DzKkz do
       |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
       |> Stream.reject(&filter_date(&1, date_regex()))
       |> Enum.map(&extract_job_post_data/1)
-      |> IO.inspect()
 
     %Crawly.ParsedItem{items: job_posts_data, requests: []}
   end

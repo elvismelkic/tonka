@@ -1,6 +1,10 @@
 defmodule Tonka.DzzWest do
   use Crawly.Spider
 
+  def title do
+    "Dom zdravlja Zagreb - Zapad"
+  end
+
   @impl Crawly.Spider
   def base_url(), do: "https://dzz-zapad.hr/"
 
