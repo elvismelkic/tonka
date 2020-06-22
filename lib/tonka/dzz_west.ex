@@ -33,7 +33,7 @@ defmodule Tonka.DzzWest do
   defp extract_job_post_data(post) do
     title = post |> Floki.find("h4") |> Floki.text()
     date = extract_date(post)
-    link = "#{base_url()}#{extract_link(post)}"
+    link = base_url() |> URI.merge(extract_link(post)) |> to_string()
 
     %{date: date, link: link, title: title}
   end
