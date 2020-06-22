@@ -1,14 +1,14 @@
-defmodule Tonka.DzKkz do
+defmodule Tonka.DzSisak do
   use Crawly.Spider
 
   @impl Crawly.Spider
-  def base_url(), do: "https://dzkkz.hr/"
+  def base_url(), do: "https://www.dz-sisak.hr/"
 
   @impl Crawly.Spider
   def init() do
     [
       start_urls: [
-        "https://dzkkz.hr/natjecaji/"
+        "https://www.dz-sisak.hr/natjecaji-i-oglasi"
       ]
     ]
   end
@@ -19,9 +19,8 @@ defmodule Tonka.DzKkz do
 
     job_posts_data =
       document
-      |> Floki.find("a")
+      |> Floki.find("tr")
       |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
-      |> Stream.reject(&filter_date(&1, date_regex()))
       |> Enum.map(&extract_job_post_data/1)
       |> IO.inspect()
 
@@ -29,26 +28,18 @@ defmodule Tonka.DzKkz do
   end
 
   defp filter_by(item, pattern) do
-    Floki.text(item) =~ pattern
-  end
-
-  defp filter_date(item, date) do
-    date |> Regex.run(extract_link(item), capture: :first) |> is_nil()
+    item |> Floki.find("a") |> Floki.text() =~ pattern
   end
 
   defp extract_job_post_data(post) do
-    title = Floki.text(post)
-    link = extract_link(post)
-    [date] = Regex.run(date_regex(), link, capture: :first)
+    title = post |> Floki.find("a") |> Floki.text() |> String.trim()
+    date = post |> Floki.find("td.list-date") |> Floki.text() |> String.trim()
+    link = base_url() |> URI.merge(extract_link(post)) |> to_string()
 
     %{date: date, link: link, title: title}
   end
 
   defp extract_link(post) do
-    post |> Floki.attribute("href") |> Floki.text()
-  end
-
-  defp date_regex do
-    ~r(202\d/\d\d)
+    post |> Floki.find("a") |> Floki.attribute("href") |> Floki.text()
   end
 end

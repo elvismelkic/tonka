@@ -34,7 +34,7 @@ defmodule Tonka.DzBbz do
   end
 
   defp extract_job_post_data(post) do
-    title = Floki.text(post) |> String.trim()
+    title = post |> Floki.text() |> String.trim()
     date = extract_date(post)
     link = base_url() |> URI.merge(extract_link(post)) |> to_string()
 

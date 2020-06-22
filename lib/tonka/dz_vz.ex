@@ -1,14 +1,14 @@
-defmodule Tonka.DzKkz do
+defmodule Tonka.DzVz do
   use Crawly.Spider
 
   @impl Crawly.Spider
-  def base_url(), do: "https://dzkkz.hr/"
+  def base_url(), do: "http://dzvz.hr/"
 
   @impl Crawly.Spider
   def init() do
     [
       start_urls: [
-        "https://dzkkz.hr/natjecaji/"
+        "http://dzvz.hr/natjecaji/"
       ]
     ]
   end
@@ -19,8 +19,8 @@ defmodule Tonka.DzKkz do
 
     job_posts_data =
       document
-      |> Floki.find("a")
-      |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
+      |> Floki.find("p a")
+      |> Stream.filter(&filter_by(&1, ~r/.*aj za zapo.*/i))
       |> Stream.reject(&filter_date(&1, date_regex()))
       |> Enum.map(&extract_job_post_data/1)
       |> IO.inspect()
@@ -37,11 +37,17 @@ defmodule Tonka.DzKkz do
   end
 
   defp extract_job_post_data(post) do
-    title = Floki.text(post)
-    link = extract_link(post)
-    [date] = Regex.run(date_regex(), link, capture: :first)
+    title = Floki.text(post) |> IO.inspect()
+    date = extract_date(post) |> IO.inspect()
+    link = base_url() |> URI.merge(extract_link(post)) |> to_string()
 
     %{date: date, link: link, title: title}
+  end
+
+  defp extract_date(post) do
+    [date] = Regex.run(date_regex(), extract_link(post), capture: :first)
+
+    String.replace(date, "_", ".")
   end
 
   defp extract_link(post) do
@@ -49,6 +55,6 @@ defmodule Tonka.DzKkz do
   end
 
   defp date_regex do
-    ~r(202\d/\d\d)
+    ~r(\d\d_\d\d_\d*\d*\d\d)
   end
 end
