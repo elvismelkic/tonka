@@ -3,36 +3,115 @@
   <p>Peace-of-mind from prototype to production</p>
 </section>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
+<section class="job-board">
+  <div class="job-group">
+    <h3>Dom zdravlja Zagreb - Istok</h3>
     <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
+      <li class="job-post">
+        <p class="title">bala</p>
+        <p class="date">Datum objave: 21.01.2020.</p>
+        <a class="link">link</a>
       </li>
     </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Zagreb - Centar</h3>
     <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
       </li>
     </ul>
-  </article>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Zagreb - Zapad</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja MUP-a RH</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Zagrebačke županije</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Koprivničko-križevačke županije</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Karlovac</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Krapinsko-zagorske županije</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Bjelovarsko-bilogorske županije</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Sisak</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
+  <div class="job-group">
+    <h3>Dom zdravlja Varaždinske županije</h3>
+    <ul>
+      <li class="job-post">
+        <p class="title"></p>
+        <p class="date">Datum objave: </p>
+        <a class="link"></a>
+      </li>
+    </ul>
+  </div>
 </section>
