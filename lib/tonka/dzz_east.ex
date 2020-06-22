@@ -22,7 +22,7 @@ defmodule Tonka.DzzEast do
       |> Floki.find("li.post.category-natjecaji")
       |> Enum.map(&extract_job_post_data/1)
 
-    %Crawly.ParsedItem{items: [job_posts_data], requests: []}
+    %Crawly.ParsedItem{items: job_posts_data, requests: []}
   end
 
   defp extract_job_post_data(post) do

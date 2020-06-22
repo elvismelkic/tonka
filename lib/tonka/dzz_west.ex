@@ -20,11 +20,10 @@ defmodule Tonka.DzzWest do
     job_posts_data =
       document
       |> Floki.find("div.card.card-body")
-      |> Stream.filter(&filter_by(&1, "Natječaj"))
+      |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
       |> Enum.map(&extract_job_post_data/1)
-      |> IO.inspect()
 
-    %Crawly.ParsedItem{items: [job_posts_data], requests: []}
+    %Crawly.ParsedItem{items: job_posts_data, requests: []}
   end
 
   defp filter_by(item, pattern) do
