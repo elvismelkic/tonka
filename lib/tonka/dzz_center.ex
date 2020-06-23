@@ -25,6 +25,7 @@ defmodule Tonka.DzzCenter do
       document
       |> Floki.find("div.dvNaslovnaVijestInfo")
       |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
+      |> Stream.filter(&last_two_weeks/1)
       |> Enum.map(&extract_job_post_data/1)
 
     %Crawly.ParsedItem{items: job_posts_data, requests: []}
@@ -34,9 +35,21 @@ defmodule Tonka.DzzCenter do
     extract_title(item) =~ pattern
   end
 
+  defp last_two_weeks(post) do
+    [day, month, year] =
+      post
+      |> extract_date()
+      |> String.split(".")
+      |> Enum.map(&String.to_integer/1)
+
+    {:ok, date} = Date.new(year, month, day)
+
+    Date.diff(Date.utc_today(), date) < 15
+  end
+
   defp extract_job_post_data(post) do
     title = extract_title(post)
-    date = post |> Floki.find("span.dvNaslovnaVijestDatum") |> Floki.text()
+    date = extract_date(post)
     link = post |> Floki.find("h3.dvNaslovnaVijestNaziv") |> Floki.find("a") |> Floki.attribute("href") |> Floki.text()
 
     %{date: date, link: link, title: title}
@@ -44,5 +57,9 @@ defmodule Tonka.DzzCenter do
 
   defp extract_title(post) do
     post |> Floki.find("h3.dvNaslovnaVijestNaziv") |> Floki.find("a") |> Floki.text()
+  end
+
+  defp extract_date(post) do
+    post |> Floki.find("span.dvNaslovnaVijestDatum") |> Floki.text()
   end
 end

@@ -24,14 +24,28 @@ defmodule Tonka.DzKzz do
     job_posts_data =
       document
       |> Floki.find("div.list-title a.category")
+      |> Stream.filter(&last_two_weeks/1)
       |> Enum.map(&extract_job_post_data/1)
 
     %Crawly.ParsedItem{items: job_posts_data, requests: []}
   end
 
+  defp last_two_weeks(post) do
+    [day, month, year] =
+      post
+      |> extract_date()
+      |> String.split(".")
+      |> Stream.reject(fn str -> str == "" end)
+      |> Enum.map(&String.to_integer/1)
+
+    {:ok, date} = Date.new(year, month, day)
+
+    Date.diff(Date.utc_today(), date) < 15
+  end
+
   defp extract_job_post_data(post) do
-    [title, _date] = split_by(post, " - ")
-    [_title, date] = split_by(post, " - ")
+    [_date, title] = split_by(post, " - ")
+    date = extract_date(post)
     link = base_url() |> URI.merge(extract_link(post)) |> to_string()
 
     %{date: date, link: link, title: title}
@@ -39,6 +53,12 @@ defmodule Tonka.DzKzz do
 
   defp split_by(post, separator) do
     post |> Floki.text() |> String.split(separator)
+  end
+
+  defp extract_date(post) do
+    [date, _title] = split_by(post, " - ")
+
+    date
   end
 
   defp extract_link(post) do

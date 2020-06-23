@@ -24,17 +24,34 @@ defmodule Tonka.DzzEast do
     job_posts_data =
       document
       |> Floki.find("li.post.category-natjecaji")
+      |> Stream.filter(&last_two_weeks/1)
       |> Enum.map(&extract_job_post_data/1)
 
     %Crawly.ParsedItem{items: job_posts_data, requests: []}
   end
 
+  defp last_two_weeks(post) do
+    [day, month, year] =
+      post
+      |> extract_date()
+      |> String.split(".")
+      |> Enum.map(&String.to_integer/1)
+
+    {:ok, date} = Date.new(year, month, day)
+
+    Date.diff(Date.utc_today(), date) < 15
+  end
+
   defp extract_job_post_data(post) do
-    date = Floki.find(post, ".value") |> Floki.text()
+    date = extract_date(post)
     title_anchor_tag = post |> Floki.find("h2.post-title") |> Floki.find("a")
     link = Floki.attribute(title_anchor_tag, "href") |> Floki.text()
     title = Floki.attribute(title_anchor_tag, "title") |> Floki.text()
 
     %{date: date, link: link, title: title}
+  end
+
+  defp extract_date(post) do
+    post |> Floki.find(".value") |> Floki.text()
   end
 end

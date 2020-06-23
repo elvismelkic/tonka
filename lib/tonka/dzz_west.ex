@@ -25,6 +25,7 @@ defmodule Tonka.DzzWest do
       document
       |> Floki.find("div.card.card-body")
       |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
+      |> Stream.filter(&last_two_weeks/1)
       |> Enum.map(&extract_job_post_data/1)
 
     %Crawly.ParsedItem{items: job_posts_data, requests: []}
@@ -32,6 +33,18 @@ defmodule Tonka.DzzWest do
 
   defp filter_by(item, pattern) do
     item |> Floki.find("h4") |> Floki.text() =~ pattern
+  end
+
+  defp last_two_weeks(post) do
+    [day, month, year] =
+      post
+      |> extract_date()
+      |> String.split(".")
+      |> Enum.map(&String.to_integer/1)
+
+    {:ok, date} = Date.new(year, month, day)
+
+    Date.diff(Date.utc_today(), date) < 15
   end
 
   defp extract_job_post_data(post) do
