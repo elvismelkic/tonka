@@ -4,114 +4,18 @@
 </section>
 
 <section class="job-board">
-  <div class="job-group">
-    <h3>Dom zdravlja Zagreb - Istok</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title">bala</p>
-        <p class="date">Datum objave: 21.01.2020.</p>
-        <a class="link">link</a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Zagreb - Centar</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Zagreb - Zapad</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja MUP-a RH</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Zagrebačke županije</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Koprivničko-križevačke županije</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Karlovac</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Krapinsko-zagorske županije</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Bjelovarsko-bilogorske županije</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Sisak</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
-  <div class="job-group">
-    <h3>Dom zdravlja Varaždinske županije</h3>
-    <ul>
-      <li class="job-post">
-        <p class="title"></p>
-        <p class="date">Datum objave: </p>
-        <a class="link"></a>
-      </li>
-    </ul>
-  </div>
+  <%= for {title, job_posts} <- @job_groups do %>
+    <div class="job-group">
+      <h3><%= title %></h3>
+      <%= for job_post <- job_posts do %>
+        <ul>
+          <li class="job-post">
+            <p class="title"><%= job_post.title %></p>
+            <p class="date">Datum objave: <%= job_post.date %></p>
+            <%= link "Više", to: job_post.link, class: "link" %>
+          </li>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
 </section>

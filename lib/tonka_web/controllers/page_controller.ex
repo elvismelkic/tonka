@@ -2,12 +2,16 @@ defmodule TonkaWeb.PageController do
   use TonkaWeb, :controller
 
   def index(conn, _params) do
-    generate_list()
-
-    render(conn, "index.html")
+    render(conn, "index.html", job_groups: generate_data())
   end
 
-  defp generate_list do
+  defp generate_data do
+    spiders()
+    |> Enum.map(&start_task/1)
+    |> Enum.map(&Task.await/1)
+  end
+
+  defp spiders do
     [
       Tonka.DzzEast,
       Tonka.DzzCenter,
@@ -21,12 +25,18 @@ defmodule TonkaWeb.PageController do
       Tonka.DzSisak,
       Tonka.DzVz
     ]
-    |> Enum.map(fn elem ->
-      [start_urls: [url]] = elem.init()
+  end
 
-      data = url |> Crawly.fetch() |> Crawly.parse(elem) |> Map.fetch!(:items)
+  defp start_task(spider) do
+    Task.async(fn ->
+      [start_urls: [url]] = spider.init()
 
-      {elem.title(), data}
+      data =
+        url
+        |> Crawly.fetch()
+        |> spider.parse_item()
+
+      {spider.title(), data.items}
     end)
   end
 end
