@@ -25,8 +25,7 @@ defmodule Tonka.DzKkz do
       document
       |> Floki.find("a")
       |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
-      |> Stream.reject(&filter_date(&1, date_regex()))
-      |> Stream.filter(&last_two_months/1)
+      |> Stream.take(5)
       |> Enum.map(&extract_job_post_data/1)
 
     %Crawly.ParsedItem{items: job_posts_data, requests: []}
@@ -34,22 +33,6 @@ defmodule Tonka.DzKkz do
 
   defp filter_by(item, pattern) do
     Floki.text(item) =~ pattern
-  end
-
-  defp filter_date(item, date) do
-    date |> Regex.run(extract_link(item), capture: :first) |> is_nil()
-  end
-
-  defp last_two_months(post) do
-    [month, year] =
-      post
-      |> extract_date()
-      |> String.split(".")
-      |> Enum.map(&String.to_integer/1)
-
-    {:ok, date} = Date.new(year, month, 1)
-
-    Date.diff(Date.utc_today(), date) < 60
   end
 
   defp extract_job_post_data(post) do
@@ -65,7 +48,14 @@ defmodule Tonka.DzKkz do
   end
 
   defp extract_date(post) do
-    [date] = Regex.run(date_regex(), extract_link(post), capture: :first)
+    date_regex()
+    |> Regex.run(extract_link(post), capture: :first)
+    |> format_date()
+  end
+
+  defp format_date(nil), do: ""
+
+  defp format_date([date]) do
     [year, month] = String.split(date, "/")
 
     "#{month}.#{year}"
