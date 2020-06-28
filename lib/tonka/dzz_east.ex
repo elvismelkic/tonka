@@ -1,23 +1,10 @@
 defmodule Tonka.DzzEast do
-  use Crawly.Spider
+  def title, do: "Dom zdravlja Zagreb - Istok"
 
-  def title do
-    "Dom zdravlja Zagreb - Istok"
-  end
+  def base_url, do: "http://dzz-istok.hr/"
 
-  @impl Crawly.Spider
-  def base_url(), do: "http://dzz-istok.hr/"
+  def job_posts_url, do: "http://dzz-istok.hr/category/obavijesti/"
 
-  @impl Crawly.Spider
-  def init() do
-    [
-      start_urls: [
-        "http://dzz-istok.hr/category/obavijesti/"
-      ]
-    ]
-  end
-
-  @impl Crawly.Spider
   def parse_item(response) do
     {:ok, document} = Floki.parse_document(response.body)
 

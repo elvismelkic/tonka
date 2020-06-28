@@ -1,23 +1,10 @@
 defmodule Tonka.DzSisak do
-  use Crawly.Spider
+  def title, do: "Dom zdravlja Sisak"
 
-  def title do
-    "Dom zdravlja Sisak"
-  end
+  def base_url, do: "https://www.dz-sisak.hr/"
 
-  @impl Crawly.Spider
-  def base_url(), do: "https://www.dz-sisak.hr/"
+  def job_posts_url, do: "https://www.dz-sisak.hr/natjecaji-i-oglasi"
 
-  @impl Crawly.Spider
-  def init() do
-    [
-      start_urls: [
-        "https://www.dz-sisak.hr/natjecaji-i-oglasi"
-      ]
-    ]
-  end
-
-  @impl Crawly.Spider
   def parse_item(response) do
     {:ok, document} = Floki.parse_document(response.body)
 

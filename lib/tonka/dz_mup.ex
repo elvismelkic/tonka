@@ -1,23 +1,10 @@
 defmodule Tonka.DzMup do
-  use Crawly.Spider
+  def title, do: "Dom zdravlja MUP-a RH"
 
-  def title do
-    "Dom zdravlja MUP-a RH"
-  end
+  def base_url, do: "https://dzmup.hr/"
 
-  @impl Crawly.Spider
-  def base_url(), do: "https://dzmup.hr/"
+  def job_posts_url, do: "https://dzmup.hr/status_natjecaja/aktivan/"
 
-  @impl Crawly.Spider
-  def init() do
-    [
-      start_urls: [
-        "https://dzmup.hr/status_natjecaja/aktivan/"
-      ]
-    ]
-  end
-
-  @impl Crawly.Spider
   def parse_item(response) do
     {:ok, document} = Floki.parse_document(response.body)
 

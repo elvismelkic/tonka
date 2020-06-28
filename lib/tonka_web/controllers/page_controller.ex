@@ -6,12 +6,12 @@ defmodule TonkaWeb.PageController do
   end
 
   defp generate_data do
-    spiders()
+    crawlers()
     |> Enum.map(&start_task/1)
     |> Enum.map(&Task.await/1)
   end
 
-  defp spiders do
+  defp crawlers do
     [
       Tonka.DzzEast,
       Tonka.DzzCenter,
@@ -27,16 +27,18 @@ defmodule TonkaWeb.PageController do
     ]
   end
 
-  defp start_task(spider) do
+  defp start_task(crawler) do
     Task.async(fn ->
-      [start_urls: [url]] = spider.init()
+      data = fetch_data(crawler)
 
-      data =
-        url
-        |> Crawly.fetch()
-        |> spider.parse_item()
-
-      {spider.title(), url, data.items}
+      {crawler.title(), crawler.job_posts_url(), data}
     end)
+  end
+
+  defp fetch_data(crawler) do
+    crawler.job_posts_url()
+    |> Crawly.fetch()
+    |> crawler.parse_item()
+    |> Map.fetch!(:items)
   end
 end

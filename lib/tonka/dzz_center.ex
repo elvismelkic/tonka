@@ -1,23 +1,11 @@
 defmodule Tonka.DzzCenter do
-  use Crawly.Spider
+  def title, do: "Dom zdravlja Zagreb - Centar"
 
-  def title do
-    "Dom zdravlja Zagreb - Centar"
-  end
+  def base_url, do: "https://dzz-centar.hr/"
 
-  @impl Crawly.Spider
-  def base_url(), do: "https://dzz-centar.hr/"
+  def job_posts_url,
+    do: "https://dzz-centar.hr/o-nama/natjecaji-za-radno-mjesto/aktivni-natjecaji/"
 
-  @impl Crawly.Spider
-  def init() do
-    [
-      start_urls: [
-        "https://dzz-centar.hr/o-nama/natjecaji-za-radno-mjesto/aktivni-natjecaji/"
-      ]
-    ]
-  end
-
-  @impl Crawly.Spider
   def parse_item(response) do
     {:ok, document} = Floki.parse_document(response.body)
 
@@ -50,7 +38,13 @@ defmodule Tonka.DzzCenter do
   defp extract_job_post_data(post) do
     title = extract_title(post)
     date = extract_date(post)
-    link = post |> Floki.find("h3.dvNaslovnaVijestNaziv") |> Floki.find("a") |> Floki.attribute("href") |> Floki.text()
+
+    link =
+      post
+      |> Floki.find("h3.dvNaslovnaVijestNaziv")
+      |> Floki.find("a")
+      |> Floki.attribute("href")
+      |> Floki.text()
 
     %{date: date, link: link, title: title}
   end
