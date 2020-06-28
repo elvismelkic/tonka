@@ -1,15 +1,19 @@
 <section class="job-board">
-  <%= for {title, job_posts} <- @job_groups do %>
+  <%= for {title, main_link, job_posts} <- @job_groups do %>
     <div class="job-group">
-      <h3><%= title %></h3>
-      <%= for job_post <- job_posts do %>
-        <ul>
-          <li class="job-post">
-            <p class="title"><%= job_post.title %></p>
-            <p class="date">Datum objave: <%= job_post.date %></p>
-            <%= link "Više", to: job_post.link, class: "link" %>
-          </li>
-        </ul>
+      <h3><%= title %> - <%= link "Idi na stranicu", to: main_link, class: "link" %></h3>
+      <%= unless Enum.empty?(job_posts) do %>
+        <%= for job_post <- job_posts do %>
+          <ul>
+            <li class="job-post">
+              <p class="title"><%= job_post.title %></p>
+              <p class="date">Datum objave: <%= job_post.date %></p>
+              <%= link "Više", to: job_post.link, class: "link" %>
+            </li>
+          </ul>
+        <% end %>
+      <% else %>
+        <p>NEMA OGLASA U ZADNJA DVA TJEDNA</p>
       <% end %>
     </div>
   <% end %>

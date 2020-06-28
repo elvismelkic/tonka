@@ -36,7 +36,7 @@ defmodule TonkaWeb.PageController do
         |> Crawly.fetch()
         |> spider.parse_item()
 
-      {spider.title(), data.items}
+      {spider.title(), url, data.items}
     end)
   end
 end
