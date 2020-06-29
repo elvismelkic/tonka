@@ -10,7 +10,7 @@ defmodule Tonka.DzKkz do
 
     job_posts_data =
       document
-      |> Floki.find("a")
+      |> Floki.find(".wp-block-file a")
       |> Stream.filter(&filter_by(&1, ~r/.*natje.*/i))
       |> Stream.take(5)
       |> Enum.map(&extract_job_post_data/1)
